@@ -1,0 +1,6 @@
+*.o
+imapcl
+xbrabl04.tar
+compile_commands.json
+.cache/
+TODO.md
