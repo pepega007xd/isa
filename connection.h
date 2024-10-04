@@ -16,7 +16,7 @@ Connection make_connection(void);
 /// `read` abstraction over plain or TLS connection
 i64 imap_read(u8 *buffer, u64 length);
 
-/// `write` abstraction over plain or TLS connection
-i64 imap_write(u8 *buffer, u64 length);
+/// `write` abstraction over plain or TLS connection with string formatting
+i64 imap_write_fmt(const char *format, ...);
 
 #endif // !CONNECTION_H

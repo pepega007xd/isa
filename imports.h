@@ -4,6 +4,7 @@
 // import allocator before anything else
 #include "sgc.h"
 #include <arpa/inet.h>
+#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <getopt.h>
