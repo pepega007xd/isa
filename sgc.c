@@ -98,3 +98,5 @@ void sgc_free(void *ptr) {
 
     alloc_table.size--;
 }
+
+void original_free(void *ptr) { free(ptr); }

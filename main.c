@@ -1,5 +1,6 @@
 #include "config.h"
 #include "connection.h"
+#include "imap.h"
 #include "imports.h"
 #include "utils.h"
 
@@ -16,7 +17,7 @@ int main(i32 argc, char **argv) {
     // open socket, establish connection
     connection = make_connection();
 
-    // do_something();
+    download_messages();
 
     free_all_resources();
     exit(EXIT_SUCCESS);

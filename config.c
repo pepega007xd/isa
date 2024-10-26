@@ -15,12 +15,14 @@ bool parse_auth_file(char *auth_file, Config *config) {
     i32 matched =
         fscanf(auth, "username = %127s\npassword = %127s\n", config->username, config->password);
 
+    fclose(auth);
     return matched == 2;
 }
 
 Config parse_args(i32 argc, char **argv) {
     // all other fields are initialized to zero
     Config config = {
+        .address_string = argv[1],
         .certaddr = "/etc/ssl/certs/",
         .mailbox = "INBOX",
     };
@@ -30,7 +32,6 @@ Config parse_args(i32 argc, char **argv) {
     }
 
     char *auth_file = NULL;
-    char *address = argv[1];
     char *port = NULL;
     i32 opt;
 
@@ -98,10 +99,11 @@ Config parse_args(i32 argc, char **argv) {
     struct addrinfo *result = NULL;
     struct addrinfo hints = {.ai_family = AF_INET, .ai_socktype = SOCK_STREAM};
 
-    i32 error = getaddrinfo(address, port, &hints, &result);
+    i32 error = getaddrinfo(config.address_string, port, &hints, &result);
 
     if (error != 0 || result == NULL) {
-        print_exit("Cannot resolve address %s port %s: %s", address, port, gai_strerror(error));
+        print_exit("Cannot resolve address %s port %s: %s", config.address_string, port,
+                   gai_strerror(error));
     }
 
     config.address = *(struct sockaddr_in *)result->ai_addr;

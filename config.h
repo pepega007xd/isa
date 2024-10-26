@@ -4,7 +4,8 @@
 #include "imports.h"
 
 typedef struct {
-        struct sockaddr_in address; /// address + port of the IMAP server
+        struct sockaddr_in address; /// server address + port of the IMAP server
+        char *address_string;       /// server address, as provided by the user
         bool use_tls;               /// whether to use TLS for connecting to the server
         char *certfile;             /// TLS certificate file to use
         char *certaddr;             /// directory containing the TLS certificates to use

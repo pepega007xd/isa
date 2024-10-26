@@ -1,5 +1,6 @@
 #include "connection.h"
 #include "config.h"
+#include "imports.h"
 #include "utils.h"
 
 extern Config config;
@@ -60,11 +61,12 @@ i64 imap_write_fmt(const char *format, ...) {
 
     i32 buffer_len = vsnprintf(NULL, 0, format, args);
     assert(buffer_len >= 0); // negative size means error
+    buffer_len += 2;         // for CRLF
 
-    char *buffer = malloc((u64)(buffer_len + 1));
-    buffer[buffer_len - 1] = '\0';
-
+    char *buffer = malloc((u64)(buffer_len));
     vsprintf(buffer, format, args_copy);
+    buffer[buffer_len - 2] = '\r';
+    buffer[buffer_len - 1] = '\n';
 
     i64 result;
     if (config.use_tls) {
