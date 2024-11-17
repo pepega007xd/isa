@@ -1,17 +1,7 @@
 #include "connection.h"
 #include "imports.h"
-#include <stdio.h>
 
 extern Connection connection;
-
-void eprintf(const char *format, ...) {
-    va_list args;
-    va_start(args, format);
-    fprintf(stderr, "ERR: ");
-    vfprintf(stderr, format, args);
-    fputc('\n', stderr);
-    va_end(args);
-}
 
 void free_all_resources(void) {
     // close the TLS connection
@@ -41,8 +31,6 @@ noreturn void print_exit(const char *format, ...) {
     exit(EXIT_FAILURE);
 }
 
-bool string_eq(const char *lhs, const char *rhs) { return strcmp(lhs, rhs) == 0; }
-
 bool string_eq_nocase(const char *lhs, const char *rhs) {
     u64 lhs_len = strlen(lhs);
     u64 rhs_len = strlen(rhs);
@@ -60,3 +48,18 @@ bool string_eq_nocase(const char *lhs, const char *rhs) {
 }
 
 bool string_is_empty(const char *string) { return strlen(string) == 0; }
+
+bool file_exists(char *filename) {
+    FILE *file = fopen(filename, "rb");
+    if (file == NULL) {
+        return false;
+    }
+
+    fclose(file);
+    return true;
+}
+
+u32 get_tag(void) {
+    static u32 tag;
+    return tag++;
+}

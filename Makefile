@@ -18,7 +18,7 @@ LDFLAGS := -flto
 
 OPENSSL_LINK_ARGS := $(shell pkg-config openssl --libs)
 
-.PHONY: all run testall zip clean selftest test
+.PHONY: all run testall pack clean bear selftest
 
 all: $(OBJECTS)
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(OPENSSL_LINK_ARGS) $(OBJECTS) -o $(TARGET)
@@ -34,7 +34,7 @@ pack:
 	@tar cf $(ARCHIVE) Makefile $(SOURCES) $(HEADERS) manual.pdf README
 
 clean:
-	@rm -f *.o $(ARCHIVE) $(TARGET) compile_commands.json
+	@rm -rf *.o $(ARCHIVE) $(TARGET) compile_commands.json .cache
 
 # recompile project from scratch and generate compile_commands.json
 bear: clean

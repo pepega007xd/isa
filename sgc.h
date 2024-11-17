@@ -27,10 +27,6 @@ void sgc_free(void *ptr);
 /// Returns the number of freed allocations.
 unsigned sgc_free_all(void);
 
-// when using functions which allocate memory internally, such as asprintf,
-// we need a way to call the original free
-void original_free(void *ptr);
-
 // overwriting the original allocation functions
 // so that they are not used directly
 #define malloc(size) sgc_malloc(size)

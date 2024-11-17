@@ -104,4 +104,11 @@ GEN_VEC_COMPARE_H(u32, u32)
 /// appends a null-terminated string to a vector of bytes
 void append_string(u8Vec *vector, char *string);
 
+/// returns true when the bytes in `data` start with `prefix`
+bool starts_with(u8Vec data, char *prefix);
+
+/// returns true when the bytes in `data` start with `prefix`,
+/// string are compared case-insensitively
+bool starts_with_nocase(u8Vec data, char *prefix);
+
 #endif //! VEC_H

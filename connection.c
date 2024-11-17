@@ -2,6 +2,7 @@
 #include "config.h"
 #include "imports.h"
 #include "utils.h"
+#include "vec.h"
 
 extern Config config;
 
@@ -26,6 +27,7 @@ Connection make_connection(void) {
             1) {
             print_exit("Could not set specified TLS certificate file/path");
         }
+
         if ((connection.ssl = SSL_new(connection.ssl_ctx)) == NULL) {
             print_exit("Could not create SSL object");
         }
@@ -47,11 +49,45 @@ Connection make_connection(void) {
 extern Connection connection;
 
 i64 imap_read(u8 *buffer, u64 length) {
-    if (config.use_tls) {
-        return SSL_read(connection.ssl, buffer, (i32)length);
-    } else {
-        return read(connection.socket_fd, buffer, length);
+    for (u64 i = 0; i < length; i++) {
+        i64 result;
+        if (config.use_tls) {
+            result = SSL_read(connection.ssl, buffer + i, 1);
+        } else {
+            result = read(connection.socket_fd, buffer + i, 1);
+        }
+
+        if (result != 1) {
+            return result;
+        }
     }
+
+    return (i64)length;
+}
+
+u8Vec read_line(void) {
+    u8Vec message_buffer = u8_vec_new();
+    // read bytes from socket up to '\n' - single line
+    while (true) {
+        u8 message_byte;
+        i64 size = imap_read(&message_byte, 1);
+
+        if (size == 0) {
+            print_exit("IMAP server closed connection");
+
+        } else if (size == -1) {
+            print_exit("Failed to receive TCP message: %s", strerror(errno));
+
+        } else {
+            u8_vec_push(&message_buffer, message_byte);
+            if (message_byte == '\n') {
+                break;
+            }
+        }
+    }
+
+    u8_vec_push(&message_buffer, '\0');
+    return message_buffer;
 }
 
 i64 imap_write_fmt(const char *format, ...) {
