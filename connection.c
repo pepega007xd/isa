@@ -24,13 +24,15 @@ Connection make_connection(void) {
     }
 
     if (config.use_tls) {
-
         connection.ssl_ctx = SSL_CTX_new(TLS_client_method());
 
         if (SSL_CTX_load_verify_locations(connection.ssl_ctx, config.certfile, config.certaddr) !=
             1) {
             print_exit("Could not set specified TLS certificate file/path");
         }
+
+        // turn on server verification
+        SSL_CTX_set_verify(connection.ssl_ctx, SSL_VERIFY_PEER, NULL);
 
         if ((connection.ssl = SSL_new(connection.ssl_ctx)) == NULL) {
             print_exit("Could not create SSL object");
