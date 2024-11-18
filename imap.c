@@ -195,7 +195,7 @@ void download_messages(void) {
 
     // get message UIDs
     if (config.only_new) {
-        imap_write_fmt("TAG%d UID SEARCH NEW", get_tag(), config.mailbox);
+        imap_write_fmt("TAG%d UID SEARCH UNSEEN", get_tag(), config.mailbox);
     } else {
         imap_write_fmt("TAG%d UID SEARCH ALL", get_tag(), config.mailbox);
     }
