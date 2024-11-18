@@ -2,8 +2,9 @@
 #include "imports.h"
 #include "utils.h"
 
-const char *help_message = "imapcl server [-p port] [-T [-c certfile] [-C certaddr]] "
-                           "[-n] [-h] -a auth_file [-b MAILBOX] -o out_dir";
+#define print_usage_exit()                                                                         \
+    print_exit("Usage: imapcl server [-p port] [-T [-c certfile] [-C certaddr]] "                  \
+               "[-n] [-h] -a auth_file [-b MAILBOX] -o out_dir");
 
 bool parse_auth_file(char *auth_file, Config *config) {
     FILE *auth = fopen(auth_file, "r");
@@ -27,7 +28,7 @@ Config parse_args(i32 argc, char **argv) {
     };
 
     if (argc < 2) {
-        print_exit("Usage: %s", help_message);
+        print_usage_exit();
     }
 
     char *auth_file = NULL;
@@ -73,14 +74,13 @@ Config parse_args(i32 argc, char **argv) {
             break;
 
         default:
-            puts(help_message);
-            exit(EXIT_FAILURE);
+            print_usage_exit();
         }
     }
 
     // check if all required arguments were provided
     if (auth_file == NULL || config.out_dir == NULL) {
-        print_exit("Usage: %s", help_message);
+        print_usage_exit();
     }
 
     if (!parse_auth_file(auth_file, &config)) {

@@ -34,7 +34,7 @@ Connection make_connection(void) {
 
         // associate socket with SSL object
         if (SSL_set_fd(connection.ssl, connection.socket_fd) != 1) {
-            print_exit("Could not establish TLS connection");
+            print_exit("Could not create TLS connection");
         }
 
         // setup TLS connnection
