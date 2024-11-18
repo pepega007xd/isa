@@ -26,7 +26,6 @@ bool parse_auth_file(char *auth_file, Config *config) {
 Config parse_args(i32 argc, char **argv) {
     // all other fields are initialized to zero
     Config config = {
-        .address_string = argv[1],
         .certaddr = "/etc/ssl/certs/",
         .mailbox = "INBOX",
     };
@@ -39,51 +38,59 @@ Config parse_args(i32 argc, char **argv) {
     char *port = NULL;
     i32 opt;
 
-    while ((opt = getopt(argc, argv, "p:Tc:C:nha:b:o:")) != -1) {
-        switch (opt) {
-        case 'p':
-            port = optarg;
-            break;
+    while (optind < argc) {
+        while ((opt = getopt(argc, argv, "p:Tc:C:nha:b:o:")) != -1) {
+            switch (opt) {
+            case 'p':
+                port = optarg;
+                break;
 
-        case 'T':
-            config.use_tls = true;
-            break;
+            case 'T':
+                config.use_tls = true;
+                break;
 
-        case 'c':
-            config.certfile = optarg;
-            break;
+            case 'c':
+                config.certfile = optarg;
+                break;
 
-        case 'C':
-            config.certaddr = optarg;
-            break;
+            case 'C':
+                config.certaddr = optarg;
+                break;
 
-        case 'n':
-            config.only_new = true;
-            break;
+            case 'n':
+                config.only_new = true;
+                break;
 
-        case 'h':
-            config.only_headers = true;
-            break;
+            case 'h':
+                config.only_headers = true;
+                break;
 
-        case 'a':
-            auth_file = optarg;
-            break;
+            case 'a':
+                auth_file = optarg;
+                break;
 
-        case 'b':
-            config.mailbox = optarg;
-            break;
+            case 'b':
+                config.mailbox = optarg;
+                break;
 
-        case 'o':
-            config.out_dir = optarg;
-            break;
+            case 'o':
+                config.out_dir = optarg;
+                break;
 
-        default:
-            print_usage_exit();
+            default:
+                print_usage_exit();
+            }
+        }
+
+        // read server address
+        if (optind < argc) {
+            config.address_string = argv[optind];
+            optind++;
         }
     }
 
     // check if all required arguments were provided
-    if (auth_file == NULL || config.out_dir == NULL) {
+    if (config.address_string == NULL || auth_file == NULL || config.out_dir == NULL) {
         print_usage_exit();
     }
 

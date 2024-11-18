@@ -6,7 +6,6 @@
 #include "connection.h"
 #include "imap.h"
 #include "imports.h"
-#include "utils.h"
 
 /// program configuration, set by `parse_args`, then read-only
 Config config = {0};
