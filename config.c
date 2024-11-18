@@ -17,7 +17,7 @@ bool parse_auth_file(char *auth_file, Config *config) {
     }
 
     i32 matched =
-        fscanf(auth, "username = %127s\npassword = %127s\n", config->username, config->password);
+        fscanf(auth, "username = %127s\npassword = %127s", config->username, config->password);
 
     fclose(auth);
     return matched == 2;
