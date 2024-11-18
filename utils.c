@@ -4,12 +4,14 @@
 extern Connection connection;
 
 void free_all_resources(void) {
-    // close the TLS connection
-    SSL_shutdown(connection.ssl);
+    if (connection.ssl_ctx != NULL && connection.ssl != NULL) {
+        // close the TLS connection
+        SSL_shutdown(connection.ssl);
 
-    // deallocate openssl resources
-    SSL_free(connection.ssl);
-    SSL_CTX_free(connection.ssl_ctx);
+        // deallocate openssl resources
+        SSL_free(connection.ssl);
+        SSL_CTX_free(connection.ssl_ctx);
+    }
 
     // close the TCP socket
     close(connection.socket_fd);

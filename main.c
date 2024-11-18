@@ -5,11 +5,11 @@
 #include "utils.h"
 
 /// program configuration, set by `parse_args`, then read-only
-Config config;
+Config config = {0};
 
 /// struct containing socket and openssl data representing an active connection,
 /// set by `make_connection`, then read-only
-Connection connection;
+Connection connection = {0};
 
 int main(i32 argc, char **argv) {
     // parse program arguments

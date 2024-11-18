@@ -29,8 +29,7 @@ run: all
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-pack:
-	@rm -f $(ARCHIVE)
+pack: clean
 	@tar cf $(ARCHIVE) Makefile $(SOURCES) $(HEADERS) manual.pdf README
 
 clean:
