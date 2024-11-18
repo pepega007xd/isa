@@ -29,12 +29,12 @@ u64 get_string_literal_length(u8Vec line) {
 
 /// reads lines from socket, returns the first line which has the provided prefix,
 /// fails when tagged response is received
-u8Vec wait_for_untagged_response(char *prefix) {
+u8Vec wait_for_untagged_response(char *prefix, char *error) {
     while (true) {
         u8Vec line = read_line();
 
         if (starts_with(line, "TAG")) {
-            print_exit("Waiting for untagged response '%s' failed", prefix);
+            print_exit(error);
         }
 
         if (starts_with_nocase(line, prefix)) {
@@ -188,7 +188,8 @@ void download_messages(void) {
 
     // select the mailbox
     imap_write_fmt("TAG%d SELECT %s", get_tag(), config.mailbox);
-    u8Vec uidvalidity_response = wait_for_untagged_response("* OK [UIDVALIDITY");
+    u8Vec uidvalidity_response =
+        wait_for_untagged_response("* OK [UIDVALIDITY", "Could not select mailbox");
     u32 uidvalidity = parse_uidvalidity(uidvalidity_response);
     u8_vec_clear(&uidvalidity_response);
     wait_for_ok_response("Could not select mailbox");
@@ -199,7 +200,7 @@ void download_messages(void) {
     } else {
         imap_write_fmt("TAG%d UID SEARCH ALL", get_tag(), config.mailbox);
     }
-    u8Vec search_response = wait_for_untagged_response("* SEARCH");
+    u8Vec search_response = wait_for_untagged_response("* SEARCH", "Could not list messages");
     wait_for_ok_response("Could not list messages");
 
     // parse message UIDs
