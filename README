@@ -6,6 +6,8 @@ Created at: 2024-11-17
 IMAPCL is a CLI IMAP client, which allows the user to download messages from a server.
 The client supports username/password authentication and TLS communication.
 
+Build program by running "make". Tested with OpenSSL 3.2.2.
+
 Usage example:
   ./imapcl eva.fit.vutbr.cz -a cred -o out -T -b Sent
   Downloaded 27 messages from Sent
