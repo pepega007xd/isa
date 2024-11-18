@@ -1,0 +1,30 @@
+IMAPCL
+
+Author: Tomáš Brablec (xbrabl04)
+Created at: 2024-11-17
+
+IMAPCL is a CLI IMAP client, which allows the user to download messages from a server.
+The client supports username/password authentication and TLS communication.
+
+Usage example:
+  ./imapcl eva.fit.vutbr.cz -a cred -o out -T -b Sent
+  Downloaded 27 messages from Sent
+
+Submitted files:
+  - Makefile 
+  - manual.pdf 
+  - README
+  - main.c
+  - config.c
+  - config.h
+  - connection.c
+  - connection.h
+  - imap.c
+  - imap.h
+  - imports.h
+  - sgc.c
+  - sgc.h
+  - utils.c
+  - utils.h
+  - vec.c
+  - vec.h
