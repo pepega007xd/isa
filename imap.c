@@ -73,7 +73,7 @@ u8Vec wait_for_fetch(void) {
 
 /// reads lines from socket until a tagged response is found,
 /// fails if the response is NO or BAD
-void wait_for_ok_response(void) {
+void wait_for_ok_response(char *error) {
     while (true) {
         u8Vec line = read_line();
         if (starts_with(line, "TAG")) {
@@ -85,7 +85,7 @@ void wait_for_ok_response(void) {
                 u8_vec_clear(&line);
                 return;
             } else {
-                print_exit("Server returned negative tagged response");
+                print_exit(error);
             }
         }
 
@@ -133,7 +133,7 @@ void download_message(u32 uid, char *filename) {
     fclose(message_file);
     free(message_buffer);
 
-    wait_for_ok_response();
+    wait_for_ok_response("Could not download message");
 }
 
 /// parses out UID numbers from a SEARCH response
@@ -184,14 +184,14 @@ char *get_filename(u32 uidvalidity, u32 uid) {
 void download_messages(void) {
     // login to the server
     imap_write_fmt("TAG%d LOGIN %s %s", get_tag(), config.username, config.password);
-    wait_for_ok_response();
+    wait_for_ok_response("Could not log in");
 
     // select the mailbox
     imap_write_fmt("TAG%d SELECT %s", get_tag(), config.mailbox);
     u8Vec uidvalidity_response = wait_for_untagged_response("* OK [UIDVALIDITY");
     u32 uidvalidity = parse_uidvalidity(uidvalidity_response);
     u8_vec_clear(&uidvalidity_response);
-    wait_for_ok_response();
+    wait_for_ok_response("Could not select mailbox");
 
     // get message UIDs
     if (config.only_new) {
@@ -200,7 +200,7 @@ void download_messages(void) {
         imap_write_fmt("TAG%d UID SEARCH ALL", get_tag(), config.mailbox);
     }
     u8Vec search_response = wait_for_untagged_response("* SEARCH");
-    wait_for_ok_response();
+    wait_for_ok_response("Could not list messages");
 
     // parse message UIDs
     u32Vec uids = parse_uids((char *)search_response.content);
@@ -227,5 +227,5 @@ void download_messages(void) {
 
     // logout of the server
     imap_write_fmt("TAG%d LOGOUT", get_tag());
-    wait_for_ok_response();
+    wait_for_ok_response("Could not log out");
 }
