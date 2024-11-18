@@ -1,3 +1,7 @@
+// File: vec.h
+// Author: Tomáš Brablec (xbrabl04)
+// Date: 2024-11-18
+
 #ifndef VEC_H
 #define VEC_H
 

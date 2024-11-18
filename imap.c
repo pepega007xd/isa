@@ -1,3 +1,7 @@
+// File: imap.c
+// Author: Tomáš Brablec (xbrabl04)
+// Date: 2024-11-18
+
 #include "config.h"
 #include "connection.h"
 #include "imports.h"

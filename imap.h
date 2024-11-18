@@ -1,3 +1,7 @@
+// File: imap.h
+// Author: Tomáš Brablec (xbrabl04)
+// Date: 2024-11-18
+
 #ifndef IMAP_H
 #define IMAP_H
 

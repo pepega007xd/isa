@@ -1,3 +1,7 @@
+// File: config.h
+// Author: Tomáš Brablec (xbrabl04)
+// Date: 2024-11-18
+
 #ifndef CONFIG_H
 #define CONFIG_H
 

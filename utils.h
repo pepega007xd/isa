@@ -1,3 +1,7 @@
+// File: utils.h
+// Author: Tomáš Brablec (xbrabl04)
+// Date: 2024-11-18
+
 #ifndef UTILS_H
 #define UTILS_H
 

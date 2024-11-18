@@ -1,3 +1,7 @@
+// File: sgc.h
+// Author: Tomáš Brablec (xbrabl04)
+// Date: 2024-11-18
+
 #ifndef SGC_H
 #define SGC_H
 

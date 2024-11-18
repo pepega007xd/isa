@@ -1,3 +1,7 @@
+// File: imports.h
+// Author: Tomáš Brablec (xbrabl04)
+// Date: 2024-11-18
+
 #ifndef IMPORTS_H
 #define IMPORTS_H
 

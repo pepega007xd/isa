@@ -1,3 +1,7 @@
+// File: sgc.c
+// Author: Tomáš Brablec (xbrabl04)
+// Date: 2024-11-18
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>

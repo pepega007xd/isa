@@ -1,3 +1,7 @@
+# File: Makefile
+# Author: Tomáš Brablec (xbrabl04)
+# Date: 2024-11-18
+
 TARGET := imapcl
 ARCHIVE := xbrabl04.tar
 
